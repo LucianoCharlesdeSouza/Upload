@@ -42,6 +42,7 @@ Responsável retornar erros caso haja
     </form>
 
 # Exemplo de Uso PHP
+        use App\Library\Upload;
         $upload = new Upload();
         
         $upload->setType('jpg');
