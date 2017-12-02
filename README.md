@@ -47,7 +47,7 @@ Responsável retornar erros caso haja
         $upload->setType('jpg');
         $upload->setType('png');
 
-        $upload->setFile('foto');
+        $upload->setFile('imagem');
         $upload->setPath("App/assets/img/");
 
         if ($upload->moveImage()) {
