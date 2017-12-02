@@ -1,5 +1,10 @@
 <?php
-
+/*
+*
+* Classe Responsável por fazer upload de imagens
+* @author Luciano Charles de Souza
+*
+*/
 namespace App\Library;
 
 class Upload {
@@ -65,7 +70,7 @@ class Upload {
         }
     }
 
-//RECUPERA OS ERROS
+    //RECUPERA OS ERROS
     public function getErros() {
         return $this->error;
     }
