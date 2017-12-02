@@ -44,6 +44,11 @@ class Upload {
         $this->mkdir_r($path);
         $this->path = $path . $this->new_name_file;
     }
+    
+    //RECUPERA O NOVO NOME DA IMAGEM MAIS SUA EXTENSÃO
+    public function getNewNameImage() {
+        return $this->new_name_file;
+    }
 
     //VERIFICANDO A EXISTENCIA DO ARQUIVO E FAZ AS VALIDAÇOES
     public function setFile($name_file) {
