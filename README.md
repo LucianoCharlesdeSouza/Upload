@@ -3,9 +3,10 @@ Classe básica responsável por fazer upload de imagem
 
 # Métodos públicos
 
-<strong> <p>setType($type)<p></strong>
+<strong> <p>setType($type)</strong><br />
 Responsável por receber as extensões permitidas
-<br/>
+</p>
+
 <strong><p>setWidth($width)</p></strong>
 Responsável por receber a largura permitida para a imagem
 <br/>
