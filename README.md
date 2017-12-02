@@ -35,6 +35,25 @@ Responsável por fazer o upload
 Responsável retornar erros caso haja
 </p>
 
+# Exemplo de Uso HTML
+    <form enctype="multipart/form-data" method="post" action="">
+        <input type="file" name="imagem">
+        <input type="submit" value="Fazer Upload">
+    </form>
 
+# Exemplo de Uso PHP
+        $upload = new Upload();
+        
+        $upload->setType('jpg');
+        $upload->setType('png');
+
+        $upload->setFile('foto');
+        $upload->setPath("App/assets/img/");
+
+        if ($upload->moveImage()) {
+            echo "Imagem carregada com sucesso!";
+        } else {
+            echo $upload->getErros();
+        }
 
 
