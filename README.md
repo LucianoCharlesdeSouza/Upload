@@ -7,27 +7,33 @@ Classe básica responsável por fazer upload de imagem
 Responsável por receber as extensões permitidas
 </p>
 
-<strong><p>setWidth($width)</p></strong>
+<strong><p>setWidth($width)</strong><br />
 Responsável por receber a largura permitida para a imagem
-<br/>
-<strong><p>setHeight($height)</p></strong>
+</p>
+
+<strong><p>setHeight($height)</strong><br/>
 Responsável por receber a altura permitida para a imagem
-<br/>
-<strong><p>setSize($size)</p></strong>
+</p>
+
+<strong><p>setSize($size)</strong><br/>
 Responsável por receber o tamanho "PESO" permitido para a imagem
-<br/>
-<strong><p>setPath($path)</p></strong>
+</p>
+
+<strong><p>setPath($path)</strong><br/>
 Responsável por receber o caminho para onde será feito o upload
-<br/>
-<strong><p>setFile($name_file)</p></strong>
+</p>
+
+<strong><p>setFile($name_file)</strong><br/>
 Responsável por receber o name do input do type file e fazer algumas validações
-<br/>
-<strong><p>moveImage()</p></strong>
+</p>
+
+<strong><p>moveImage()</strong><br/>
 Responsável por fazer o upload
-<br/>
-<strong><p>getErros()</p></strong>
+</p>
+
+<strong><p>getErros()</strong><br/>
 Responsável retornar erros caso haja
-<br/>
+</p>
 
 
 
