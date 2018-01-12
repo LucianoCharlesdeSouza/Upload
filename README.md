@@ -49,16 +49,19 @@ Recupera o novo nome da imagem
         use App\Library\Upload;
         $upload = new Upload();
         
-        $upload->setType('jpg');
-        $upload->setType('png');
+        if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
+            $upload->setType('jpg');
+            $upload->setType('png');
 
-        $upload->setFile('imagem');
-        $upload->setPath("App/assets/img/");
-
-        if ($upload->moveImage()) {
-            echo "Imagem carregada com sucesso!";
-        } else {
-            echo $upload->getErros();
+            $upload->setFile('imagem');
+            $upload->setPath("App/assets/");
+            if ($upload->moveImage()) {
+                echo "Imagem carregada com sucesso!";
+                echo "<br />";
+                echo $upload->getNewNameImage();
+            } else {
+                echo $upload->getErros();
+            }
         }
 
 
