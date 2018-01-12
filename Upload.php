@@ -13,8 +13,8 @@ class Upload {
     private $file; //nome do input file
     private $new_name_file; //novo nome da imagem gerada
     private $permitidos = ["image/jpeg"];
-    private $height = 300; //280px
-    private $width = 230; //180px
+    private $height = 800; //800px
+    private $width = 1546; //1546px
     private $size = 150000; //1.5MB;
     private $path; //caminho onde será salvo a imagem
     private $error;
@@ -34,7 +34,7 @@ class Upload {
         $this->size = $size;
     }
 
-    //SETA A ALTURA DA PERMITIDA DA IMAGEM
+    //SETA A ALTURA PERMITIDA DA IMAGEM
     public function setHeight($height) {
         $this->height = $height;
     }
@@ -50,7 +50,7 @@ class Upload {
         return $this->new_name_file;
     }
 
-    //VERIFICANDO A EXISTENCIA DO ARQUIVO E FAZ AS VALIDAÇOES
+    //VERIFICA A EXISTENCIA DO ARQUIVO E FAZ AS VALIDAÇOES
     public function setFile($name_file) {
 
         $this->file = $_FILES[$name_file];
@@ -80,14 +80,14 @@ class Upload {
         return $this->error;
     }
 
-    //VALIDANDO O TIPO E A EXTENSÂO
+    //VALIDA O TIPO E A EXTENSÂO
     private function validMimeAndType() {
         if (!in_array($this->file['type'], $this->permitidos)) {
             $this->error = "Só pode ser enviado Arquivos do Tipo imagem e  extensões Tipo({$this->getType()}).";
         }
     }
 
-    //VALIDANDO AS DIMENSÕES DO ARQUIVO
+    //VALIDA AS DIMENSÕES
     private function validDimensions() {
         $dimensions = getimagesize($this->file['tmp_name']);
         if ($dimensions[0] > $this->width || $dimensions[1] > $this->height) {
@@ -95,14 +95,14 @@ class Upload {
         }
     }
 
-    //VALIDANDO O TAMANHO DO ARQUIVO
+    //VALIDA O TAMANHO 
     private function validSize() {
         if ($this->file['size'] > $this->size) {
             $this->error = "Esta imagem precisa ser menor que " . $this->size / 100000 . "MB";
         }
     }
 
-    //GERA UM NOVO NOME PARA A IMAGEM
+    //GERA UM NOVO NOME
     private function setNewName() {
         $ext = pathinfo($this->file['name']);
         $this->new_name_file = hash("sha256", uniqid(rand(), true)) . '.' . $ext['extension'];
