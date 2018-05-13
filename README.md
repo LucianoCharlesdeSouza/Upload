@@ -94,9 +94,9 @@ podendo receber o indice numérico do array
 
 
 
-# Exemplo de Uso Upload Simples HTML
+# Exemplo de Uso Upload Múltiplos HTML
     <form enctype="multipart/form-data" method="post" action="">
-        <input type="file" name="imagem">
+        <input type="file" name="imagem[]" multiple="">
         <input type="submit" value="Fazer Upload">
     </form>
 
