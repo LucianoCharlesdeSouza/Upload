@@ -207,7 +207,7 @@ class Upload {
      * SETA A LARGURA PERMITIDA DA IMAGEM
      */
 
-    public function Width($width) {
+    public function width($width) {
         $this->width = $width;
         return $this;
     }
@@ -216,7 +216,7 @@ class Upload {
      * SETA O TAMANHO "PESO" PERMITIDO DA IMAGEM
      */
 
-    public function Size($size) {
+    public function size($size) {
         $this->size = $size;
         return $this;
     }
@@ -225,7 +225,7 @@ class Upload {
      * SETA A ALTURA PERMITIDA DA IMAGEM
      */
 
-    public function Height($height) {
+    public function height($height) {
         $this->height = $height;
         return $this;
     }
@@ -234,7 +234,7 @@ class Upload {
      * SETA O CAMINHO ONDE SERÁ SALVO A IMAGEM
      */
 
-    public function Path($path) {
+    public function path($path) {
         $this->mkdir_r($path);
         $this->path = $path;
         return $this;
@@ -336,7 +336,7 @@ class Upload {
      * VERIFICA SE O ARRAY É MULTIPLO
      */
 
-    private function ArrayFiles($file) {
+    private function arrayFiles($file) {
         $file_array = array();
         $file_count = count($file['name']);
         $file_key = array_keys($file);
@@ -448,7 +448,7 @@ class Upload {
      * RETORNA OS ERROS CASO HAJA
      */
 
-    private function Error() {
+    private function error() {
         if (count($this->error) == 0) {
             return true;
         }
