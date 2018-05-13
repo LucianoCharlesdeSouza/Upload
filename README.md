@@ -1,5 +1,5 @@
 # Upload
-Classe básica responsável por fazer upload de imagem
+Classe responsável por fazer upload simples e múltiplos de imagens/arquivos
 
 # Métodos públicos
 
