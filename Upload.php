@@ -207,7 +207,7 @@ class Upload {
      * SETA A LARGURA PERMITIDA DA IMAGEM
      */
 
-    public function setWidth($width) {
+    public function Width($width) {
         $this->width = $width;
         return $this;
     }
@@ -216,7 +216,7 @@ class Upload {
      * SETA O TAMANHO "PESO" PERMITIDO DA IMAGEM
      */
 
-    public function setSize($size) {
+    public function Size($size) {
         $this->size = $size;
         return $this;
     }
@@ -225,7 +225,7 @@ class Upload {
      * SETA A ALTURA PERMITIDA DA IMAGEM
      */
 
-    public function setHeight($height) {
+    public function Height($height) {
         $this->height = $height;
         return $this;
     }
