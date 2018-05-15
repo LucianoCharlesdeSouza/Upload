@@ -13,14 +13,16 @@ class Upload {
      * ATRIBUTOS
      */
 
+    private $image_crop;
+    private $crop = false;
+    private $quality = '100';
     private $file; //input file
     private $new_name_file; //novo nome da imagem gerada
     private $images_name = []; //array com os nomes das imagens upadas com multiplos uploads
     private $allowed = [];
-    private $type; //tipo de arquivo ou imagem
     private $height = 800; //800px
     private $width = 1546; //1546px
-    private $size = 150000; //1.5MB;
+    private $size = 250000; //1.5MB;
     private $path; //caminho onde será salvo a imagem
     private $error;
 
@@ -34,15 +36,8 @@ class Upload {
 
     public function jpeg() {
         array_push($this->allowed, 'image/jpeg');
-        return $this;
-    }
-
-    /*
-     * ADICIONA A EXTENSÃO JPG NAS PERMISSÕES DE UPLOAD
-     */
-
-    public function jpg() {
         array_push($this->allowed, 'image/jpg');
+        array_push($this->allowed, 'image/pjpeg');
         return $this;
     }
 
@@ -52,6 +47,7 @@ class Upload {
 
     public function png() {
         array_push($this->allowed, 'image/png');
+        array_push($this->allowed, 'image/x-png');
         return $this;
     }
 
@@ -249,10 +245,29 @@ class Upload {
     }
 
     /*
+     * VERIFICA A EXISTENCIA DO ARQUIVO E SE NÃO ESTA VAZIO
+     */
+
+    private function is_empty($file) {
+        if ($file != null) {
+            if (in_array('', $this->file['tmp_name'])) {
+                $this->error = "Escolha o(s) arquivo(s) " . implode(' - ', $this->allowed) . " para upload";
+                return false;
+            }
+        } else {
+
+            if (!isset($this->file['name']) || empty($this->file['name']) || empty($this->file['tmp_name'])) {
+                $this->error = "Escolha o arquivo " . implode(' - ', $this->allowed) . " para upload";
+                return false;
+            }
+        }
+    }
+
+    /*
      * VERIFICA A EXISTENCIA DO ARQUIVO E FAZ AS VALIDAÇOES
      */
 
-    public function setFile($name_file, $file = null) {
+    private function setFile($name_file, $file = null) {
         $this->file = $_FILES[$name_file];
 
         if ($file != null) {
@@ -267,6 +282,7 @@ class Upload {
                 return false;
             }
         }
+
         $this->validMimeAndType($file);
         $this->validDimensions($file);
         $this->validSize($file);
@@ -274,28 +290,68 @@ class Upload {
     }
 
     /*
-     * FAZ O UPLOAD CASO NÃO HAJA ERROS
+     * MÉTODO QUE ATIVA O RESIZE DA IMAGEM
      */
 
-    public function moveFile($file) {
-        $this->setFile($file);
-        $this->path = $this->path . $this->new_name_file;
-        if ($this->Error()) {
-            if (!move_uploaded_file($this->file['tmp_name'], $this->path)) {
-                $this->error = "Não foi possivel fazer upload do arquivo " . implode(' - ', $this->allowed) . "! Contate o administrador.";
-            }
-            return true;
-        }
+    public function crop($quality = null) {
+        $this->crop = true;
+        $this->quality = ($quality != null) ? $quality : $this->quality;
+        return $this;
+    }
+
+    /*
+     * MÉTODO VERIFICADOR DE PERMISSÃO PARA CROP
+     */
+
+    private function croping($name_file, $file = null) {
+        $this->file = $_FILES[$name_file];
+
+        $this->is_empty($file);
+
+        $this->validDimensions($file);
+        $this->validSize($file);
+        $this->setNewName($file);
+
+        $this->Uploadimage_crop();
+    }
+
+    private function cropingMultiple($file = null) {
+
+        $this->validDimensions($file);
+        $this->validSize($file);
+        $this->setNewName($file);
+
+        $this->Uploadimage_crop();
+        $this->images_name[] = $this->getNameFile();
     }
 
     /*
      * FAZ O UPLOAD CASO NÃO HAJA ERROS
+     * E FAZ OU NÃO O CROP DA IMAGEM
      */
 
-    private function movemultiple() {
-        $this->path = $this->path . $this->new_name_file;
+    public function moveFile($file) {
+        if ($this->crop) {
+            $this->croping($file);
+        } else {
+            $this->setFile($file);
+            $this->path = $this->path . $this->new_name_file;
+            if ($this->Error()) {
+                if (!move_uploaded_file($this->file['tmp_name'], $this->path)) {
+                    $this->error = "Não foi possivel fazer upload do arquivo " . implode(' - ', $this->allowed) . "! Contate o administrador.";
+                }
+                return true;
+            }
+        }
+    }
+
+    /*
+     * FAZ O UPLOAD MULTIPLO CASO NÃO HAJA ERROS
+     */
+
+    private function uploadmultiple() {
         if ($this->Error()) {
-            if (!move_uploaded_file($this->file['tmp_name'], $this->path)) {
+            if (!move_uploaded_file($this->file['tmp_name'], $this->path . $this->new_name_file)) {
                 $this->error = "Não foi possivel fazer upload do arquivo " . implode(' - ', $this->allowed) . "! Contate o administrador.";
             }
             return true;
@@ -310,12 +366,18 @@ class Upload {
 
         foreach ($this->ArrayFiles($_FILES[$name]) as $val) {
 
-            $this->setFile($name, $val);
+            if (!$this->crop) {
+                $this->setFile($name, $val);
 
-            $this->file = $val;
+                $this->file = $val;
 
-            if ($this->movemultiple()) {
-                $this->images_name[] = $this->getNameFile();
+                if ($this->uploadmultiple()) {
+                    $this->images_name[] = $this->getNameFile();
+                }
+            } else {
+                $this->file = $val;
+
+                $this->cropingMultiple($val);
             }
         }
     }
@@ -464,6 +526,96 @@ class Upload {
             $types .= $this->allowed[$i] . ' - ';
         }
         return rtrim($types, ' - ');
+    }
+
+    /*
+     * REALIZA O CROP DE IMAGENS
+     */
+
+    private function Uploadimage_crop() {
+
+        $rotation = null;
+        switch ($this->file['type']):
+            case 'image/jpg':
+            case 'image/jpeg':
+            case 'image/pjpeg':
+                $rotation = (function_exists('exif_read_data') && exif_imagetype($this->file['tmp_name']) == 2 ? @exif_read_data($this->file['tmp_name']) : null);
+                $this->image_crop = imagecreatefromjpeg($this->file['tmp_name']);
+                break;
+            case 'image/png':
+            case 'image/x-png':
+                $rotation = (function_exists('exif_read_data') && exif_imagetype($this->file['tmp_name']) == 3 ? @exif_read_data($this->file['tmp_name']) : null);
+                $this->image_crop = imagecreatefrompng($this->file['tmp_name']);
+                break;
+            case 'image/gif':
+                $rotation = (function_exists('exif_read_data') && exif_imagetype($this->file['tmp_name']) == 1 ? @exif_read_data($this->file['tmp_name']) : null);
+                $this->image_crop = imagecreatefromgif($this->file['tmp_name']);
+                break;
+            default :
+                $this->image_crop = null;
+                break;
+        endswitch;
+
+        /*
+         * Rotacionar a imagem caso necessitar
+         */
+        if (!empty($rotation['Orientation'])) {
+            switch ($rotation['Orientation']) {
+                case 3:
+                    $this->image_crop = imagerotate($this->image_crop, 180, 0);
+                    break;
+                case 6:
+                    $this->image_crop = imagerotate($this->image_crop, -90, 0);
+                    break;
+                case 8:
+                    $this->image_crop = imagerotate($this->image_crop, 90, 0);
+                    break;
+                default :
+                    $this->image_crop = $this->image_crop;
+                    break;
+            }
+        }
+
+
+        if (!$this->image_crop):
+            $this->error = 'Campo vazio ou Tipo de arquivo inválido, envie imagens JPG/PNG/GIF!';
+            return false;
+        else:
+            $x = imagesx($this->image_crop);
+            $y = imagesy($this->image_crop);
+            $image_cropX = ( $this->width < $x ? $this->width : $x );
+            $image_cropH = ($image_cropX * $y) / $x;
+
+            $Newimage_crop = imagecreatetruecolor($image_cropX, $image_cropH);
+            imagealphablending($Newimage_crop, false);
+            imagesavealpha($Newimage_crop, true);
+            imagecopyresampled($Newimage_crop, $this->image_crop, 0, 0, 0, 0, $image_cropX, $image_cropH, $x, $y);
+
+            switch ($this->file['type']):
+                case 'image/jpg':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                    imagejpeg($Newimage_crop, $this->path . $this->new_name_file, $this->quality);
+                    break;
+                case 'image/png':
+                case 'image/x-png':
+                    imagepng($Newimage_crop, $this->path . $this->new_name_file);
+                    break;
+                case 'image/gif':
+                    imagegif($Newimage_crop, $this->path . $this->new_name_file);
+                    break;
+            endswitch;
+
+            if (!$Newimage_crop):
+                $this->error = 'Campo vazio ou Tipo de arquivo inválido, envie imagens JPG/PNG/GIF!';
+                return false;
+            else:
+                $this->error = null;
+            endif;
+
+            imagedestroy($this->image_crop);
+            imagedestroy($Newimage_crop);
+        endif;
     }
 
 }
