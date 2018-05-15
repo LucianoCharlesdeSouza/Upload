@@ -156,7 +156,6 @@ podendo receber o indice numérico do array
                 $upload->set()
                         ->jpeg() engloba os mimes (jpeg,jpg,pjeg)
                         ->png()  engloba os mimes (png,x-png)
-                        ->gif()
                         ->path("uploads/")
                         ->width(600)
                         ->crop()
