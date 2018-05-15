@@ -8,11 +8,11 @@ Responsável por receber as extensões permitidas
 </p>
 
 <strong><p>width($width)</strong><br />
-Responsável por receber a largura permitida para a imagem
+Responsável por receber a largura permitida para a imagem, tambem pode ser usada para definir o crop.
 </p>
 
 <strong><p>height($height)</strong><br/>
-Responsável por receber a altura permitida para a imagem
+Responsável por receber a altura permitida para a imagem, tambem pode ser usada para definir o crop.
 </p>
 
 <strong><p>size($size)</strong><br/>
@@ -21,6 +21,12 @@ Responsável por receber o tamanho "PESO" permitido para a imagem
 
 <strong><p>path($path)</strong><br/>
 Responsável por receber o caminho para onde será feito o upload
+</p>
+
+<strong><p>crop()</strong><br />
+Pode receber uma string com o valor da qualidade da imagem a ser criada<br />
+crop(80)<br/>
+Valor padrão é de 100 "ótima qualidade".
 </p>
 
 <strong><p>moveFile('imagem')</strong><br/>
@@ -132,6 +138,34 @@ podendo receber o indice numérico do array
                         ->moveMultipleFiles('imagem');
 
                 if (!$upload->getErros()) {
+                    var_dump($upload->getNameMultipleFiles());
+                } else {
+                    echo $upload->getErros();
+                }
+            }
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+        
+        
+# Exemplo de Uso Com a Função Crop        
+        
+         try {
+            $upload = new Upload();
+
+            if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
+
+                $upload->set()
+                        ->jpeg()
+                        ->png()
+                        ->gif()
+                        ->path("uploads/")
+                        ->width(600)
+                        ->crop()
+                        ->moveMultipleFiles('imagem');
+
+                if (!$upload->getErros()) {
+                    echo '<pre>';
                     var_dump($upload->getNameMultipleFiles());
                 } else {
                     echo $upload->getErros();
