@@ -24,7 +24,7 @@ Responsável por receber o caminho para onde será feito o upload
 </p>
 
 <strong><p>crop()</strong><br />
-Pode receber uma string com o valor da qualidade da imagem a ser criada<br />
+Pode receber o valor da qualidade da imagem a ser criada<br />
 crop(80)<br/>
 Valor padrão é de 100 "ótima qualidade".
 </p>
