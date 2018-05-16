@@ -58,8 +58,7 @@ podendo receber o indice numérico do array
     </form>
 
 # Exemplo de Uso PHP
-        use App\Library\Upload;
-
+        
         try {
             $upload = new Upload();
 
@@ -84,7 +83,7 @@ podendo receber o indice numérico do array
                         ->mp3()
                         ->mp4()
                         ->wav()
-                        ->Path("uploads/")
+                        ->path("uploads/")
                         ->moveFile('imagem');
 
                 if (!$upload->getErros()) {
@@ -106,8 +105,7 @@ podendo receber o indice numérico do array
     </form>
 
 # Exemplo de Uso PHP
-        use App\Library\Upload;
-
+       
         try {
             $upload = new Upload();
 
@@ -132,7 +130,7 @@ podendo receber o indice numérico do array
                         ->mp3()
                         ->mp4()
                         ->wav()
-                        ->Path("uploads/")
+                        ->path("uploads/")
                         ->moveMultipleFiles('imagem');
 
                 if (!$upload->getErros()) {
