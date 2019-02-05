@@ -511,7 +511,7 @@ class Upload {
      */
 
     private function error() {
-        if ($this->error) {
+        if (count($this->error) == 0) {
             return true;
         }
     }
