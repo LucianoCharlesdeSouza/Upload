@@ -58,24 +58,25 @@ podendo receber o indice numérico do array
     </form>
 
 # Exemplo de Uso PHP
-        
+
+```php
         try {
             $upload = new Upload();
 
             if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
 
                 $upload->set()
-                        ->jpeg() engloba os mimes (jpeg,jpg,pjeg)
-                        ->png()  engloba os mimes (png,x-png)
+                        ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
+                        ->png()  //engloba os mimes (png,x-png)
                         ->bmp()
                         ->icon()
                         ->gif()
                         ->svg()
                         ->css()
-                        ->doc()  engloba os mimes (doc,docx)
+                        ->doc()  //engloba os mimes (doc,docx)
                         ->rtf()
                         ->html()
-                        ->excel()  engloba os mimes (xls,xlsx)
+                        ->excel()  //engloba os mimes (xls,xlsx)
                         ->pdf()
                         ->xml()
                         ->rar()
@@ -95,8 +96,7 @@ podendo receber o indice numérico do array
         } catch (Exception $e) {
             die($e->getMessage());
         }
-
-
+```
 
 # Exemplo de Uso Upload Múltiplos HTML
     <form enctype="multipart/form-data" method="post" action="">
@@ -105,24 +105,25 @@ podendo receber o indice numérico do array
     </form>
 
 # Exemplo de Uso PHP
-       
+
+```php
         try {
             $upload = new Upload();
 
             if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
 
                 $upload->set()
-                        ->jpeg() engloba os mimes (jpeg,jpg,pjeg)
-                        ->png()  engloba os mimes (png,x-png)
+                        ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
+                        ->png()  //engloba os mimes (png,x-png)
                         ->bmp()
                         ->icon()
                         ->gif()
                         ->svg()
                         ->css()
-                        ->doc()  engloba os mimes (doc,docx)
+                        ->doc()  //engloba os mimes (doc,docx)
                         ->rtf()
                         ->html()
-                        ->excel()  engloba os mimes (xls,xlsx)
+                        ->excel()  //engloba os mimes (xls,xlsx)
                         ->pdf()
                         ->xml()
                         ->rar()
@@ -142,18 +143,19 @@ podendo receber o indice numérico do array
         } catch (Exception $e) {
             die($e->getMessage());
         }
-        
+```        
         
 # Exemplo de Uso Com a Função Crop        
-        
+
+```php
          try {
             $upload = new Upload();
 
             if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
 
                 $upload->set()
-                        ->jpeg() engloba os mimes (jpeg,jpg,pjeg)
-                        ->png()  engloba os mimes (png,x-png)
+                        ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
+                        ->png()  //engloba os mimes (png,x-png)
                         ->path("uploads/")
                         ->width(600)
                         ->crop()
@@ -169,3 +171,4 @@ podendo receber o indice numérico do array
         } catch (Exception $e) {
             die($e->getMessage());
         }
+```
