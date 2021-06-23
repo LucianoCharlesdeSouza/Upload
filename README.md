@@ -63,7 +63,7 @@ podendo receber o indice numérico do array
         try {
             $upload = new Upload();
 
-            if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
+            if (isset($_FILES['imagem']) && !empty($_FILES['imagem']) && $_FILES['imagem']['error'] != 4) {
 
                 $upload->set()
                         ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
@@ -110,7 +110,7 @@ podendo receber o indice numérico do array
         try {
             $upload = new Upload();
 
-            if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
+            if (isset($_FILES['imagem']) && !empty($_FILES['imagem']) && $_FILES['imagem']['error'] != 4) {
 
                 $upload->set()
                         ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
@@ -151,7 +151,7 @@ podendo receber o indice numérico do array
          try {
             $upload = new Upload();
 
-            if (isset($_FILES['imagem']) && !empty($_FILES['imagem'])) {
+            if (isset($_FILES['imagem']) && !empty($_FILES['imagem']) && $_FILES['imagem']['error'] != 4) {
 
                 $upload->set()
                         ->jpeg() //engloba os mimes (jpeg,jpg,pjeg)
