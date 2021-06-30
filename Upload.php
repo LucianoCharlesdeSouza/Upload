@@ -131,6 +131,7 @@ class Upload {
 
   public function zip() {
       array_push($this->allowed, 'application/octet-stream');
+      array_push($this->allowed, 'application/x-zip-compressed');
       array_push($this->allowed, 'application/zip');
       return $this;
   }
