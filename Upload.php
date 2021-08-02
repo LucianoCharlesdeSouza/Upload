@@ -102,6 +102,7 @@ class Upload {
 
   public function xml() {
       array_push($this->allowed, 'application/xml');
+      array_push($this->allowed, 'text/xml');
       return $this;
   }
 
