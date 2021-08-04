@@ -453,23 +453,28 @@ class Upload {
    * VALIDA AS DIMENSÕES
    */
 
-  private function validDimensions($file = null) {
+    private function validDimensions($file = null)
+    {
 
-      if ($file != null) {
-          $dimensions = ($file['tmp_name'] != "") ? getimagesize($file['tmp_name']) : null;
+        if (in_array($this->allowed, ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/gif', 'image/bmp', 'image/svg+xml', 'image/x-icon'])) {
 
-          if ($dimensions[0] > $this->width || $dimensions[1] > $this->height && $dimensions != null) {
-              $this->error = "Arquivo " . implode(' - ', $this->allowed) . " precisa estar nessas dimensões {$this->width}x{$this->height}.";
-              return false;
-          }
-      } else {
-          $dimensions = getimagesize($this->file['tmp_name']);
-          if ($dimensions[0] > $this->width || $dimensions[1] > $this->height) {
-              $this->error = "Arquivo " . implode(' - ', $this->allowed) . " precisa estar nessas dimensões {$this->width}x{$this->height}.";
-              return false;
-          }
-      }
-  }
+
+            if ($file != null) {
+                $dimensions = ($file['tmp_name'] != "") ? getimagesize($file['tmp_name']) : null;
+
+                if ($dimensions[0] > $this->width || $dimensions[1] > $this->height && $dimensions != null) {
+                    $this->error = "Arquivo " . implode(' - ', $this->allowed) . " precisa estar nessas dimensões {$this->width}x{$this->height}.";
+                    return false;
+                }
+            } else {
+                $dimensions = getimagesize($this->file['tmp_name']);
+                if ($dimensions[0] > $this->width || $dimensions[1] > $this->height) {
+                    $this->error = "Arquivo " . implode(' - ', $this->allowed) . " precisa estar nessas dimensões {$this->width}x{$this->height}.";
+                    return false;
+                }
+            }
+        }
+    }
 
   /*
    * VALIDA O TAMANHO
